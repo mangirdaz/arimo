@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/jinzhu/configor"
@@ -34,12 +35,20 @@ func main() {
 
 	rm := containers.NewInstance(config)
 
-	controller := Arimo{
-		rm: rm,
+	item, err := rm.GetImages()
+	if err != nil {
+		log.Error(err)
 	}
-
-	for _, image := range config.ImageList {
-		controller.rm.Copy(image)
+	for _, img := range item {
+		tags, err := rm.GetTags(img)
+		if err != nil {
+			log.Error(err)
+		}
+		for _, tag := range tags {
+			log.Debugf("%s:%s", img, tag)
+			dstImg := getDestinationImage(fmt.Sprintf("%s:%s", img, tag), config)
+			rm.Copy(fmt.Sprintf("%s:%s", img, tag), dstImg)
+		}
 	}
 
 }
