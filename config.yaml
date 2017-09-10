@@ -1,10 +1,10 @@
 sourceregistry:
-  url: registry.access.redhat.com
-  username: 
-  password:
+  url: http://localhost:5000
+  username:
+  password: 
   type: docker
 destinationregistry:
-  url: docker.io
+  url: https://docker.io
   username: mangirdas
   password: xxxxxxxxx
   type: docker
@@ -14,8 +14,3 @@ dockerinsecureskiptlsverify: true
 namespacemap:
 - source: openshift3
   destination: mangirdas
-imagelist:
-- openshift3/ose-ansible:latest
-- openshift3/jenkins-2-rhel7
-- openshift3/jenkins-slave-maven-rhel7
-- openshift3/jenkins-slave-nodejs-rhel7
